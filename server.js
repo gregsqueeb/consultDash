@@ -13,18 +13,25 @@ var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
 
 var currentData= [];
 var frameStarted = false;
+var lengthByte;
 function handleData(data, bytesExpected){
   for(var i = 0; i < data.length; i++){
     var char = data.toString('hex',i,i+1);
     if(char = "ff"){
       frameStarted = true;
       currentData = [];
+      lengthByte = undefined;
     }else if(frameStarted){
-      currentData.push(parseInt(char, 16));
+      if(!lengthByte){
+        lengthByte = parseInt(char, 16);
+      }else{
+        currentData.push(parseInt(char, 16));
+      }
     }
   }
   if(currentData.length === bytesExpected){
     frameStarted = false;
+    // console.log(lengthByte === bytesExpected);
     return currentData.slice();
   }
 }
@@ -58,12 +65,11 @@ sp.on("open", function () {
       sp.write([0x5A,0x08,0xF0], function(err,results){
         // console.log("results2: " + typeof results);
       });
-    }
-    else{
-      console.log(data)
+    }else{
+      // console.log(data);
       parseData(handleData(data, bytesRequested));
-    }
 
+    }
 
   });
   sp.write([0xFF, 0xFF, 0xEF], function(err, results) {
