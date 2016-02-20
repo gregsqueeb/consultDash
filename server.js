@@ -10,6 +10,7 @@ var SerialPort = serialport.SerialPort;
 //   SerialPort = require('virtual-serialport');
 // }
 var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
+var rpm, mph = 0;
 
 var currentData= [];
 var frameStarted = false;
@@ -17,7 +18,7 @@ var lengthByte;
 function handleData(data, bytesExpected){
   for(var i = 0; i < data.length; i++){
     var char = data.toString('hex',i,i+1);
-    if(char = "ff"){
+    if(char === "ff"){
       frameStarted = true;
       currentData = [];
       lengthByte = undefined;
@@ -37,7 +38,13 @@ function handleData(data, bytesExpected){
 }
 
 function parseData(data){
-  console.log(data);
+
+  if(data !== undefined){
+    var dataRPM = ((data[1] << 8) + data[2]) * 12.5
+    rpm = dataRPM
+    // console.log(data);
+  }
+
 }
 
 // LIST ALL SERIAL PORTS AND SOME DATA ABOUT THEM
@@ -49,20 +56,20 @@ function parseData(data){
 //   });
 // });
 var isConnected = false;
-var command = [0x5A,0x08,0xF0];
+var command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0xF0];
 var bytesRequested = (command.length - 1) / 2;
 sp.on("open", function () {
   console.log('open');
   sp.on('data', function(data) {
     // console.log("data: " + JSON.stringify(data, null, 4));
-    console.log("data: " + data.toString('hex'));
+    // console.log("data: " + data.toString('hex'));
     if(!isConnected && data.toString('hex') === "10"){
       console.log("connected");
       isConnected = true;
       // sp.write([0x5A,0x0B,0x5A,0x01,0x5A,0x08,0x5A,0x0C,0x5A,0x0D,0x5A,0x03,0x5A,0x05,0x5A,0x09,0x5A,0x13,0x5A,0x16,0x5A,0x17,0x5A,0x1A,0x5A,0x1C,0x5A,0x21,0xF0], function(err,results){
       //   // console.log("results2: " + typeof results);
       // });
-      sp.write([0x5A,0x08,0xF0], function(err,results){
+      sp.write(command, function(err,results){
         // console.log("results2: " + typeof results);
       });
     }else{
@@ -79,7 +86,7 @@ sp.on("open", function () {
 
 // Server part
 var app = express();
-var rpm, mph = 0;
+
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 var server = app.listen(8090);
@@ -92,11 +99,6 @@ io.on('connection', function (socket) {
   console.log('New client connected!');
     //send data to client
     setInterval(function(){
-      if(rpm < 7200){
-        rpm += 10
-      } else{
-        rpm = 0
-      }
       if(mph < 120){
         mph += 1
       } else{
