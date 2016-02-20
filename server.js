@@ -9,7 +9,7 @@ var SerialPort = serialport.SerialPort;
 //   console.log('Virtual Serial Port Activated');
 //   SerialPort = require('virtual-serialport');
 // }
-var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600, parser: serialport.parsers.readline(parseInt("F0", 16)) });
+var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
 
 
 // LIST ALL SERIAL PORTS AND SOME DATA ABOUT THEM
@@ -24,14 +24,21 @@ var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600, parser: serialpo
 sp.on("open", function () {
   console.log('open');
   sp.on('data', function(data) {
-    console.log('data received: ' + data);
-  });
-  sp.write(parseInt("FFFFEF", 16), function(err, results) {
-    console.log("results: " + (typeof results));
+    // console.log("data: " + JSON.stringify(data, null, 4));
+    console.log("data: " + data.toString('hex'));
+    if(data.toString('hex') === "10"){
+      console.log("connected");
+      // sp.write([0x5A,0x0B,0x5A,0x01,0x5A,0x08,0x5A,0x0C,0x5A,0x0D,0x5A,0x03,0x5A,0x05,0x5A,0x09,0x5A,0x13,0x5A,0x16,0x5A,0x17,0x5A,0x1A,0x5A,0x1C,0x5A,0x21,0xF0], function(err,results){
+      //   // console.log("results2: " + typeof results);
+      // });
+      sp.write([0x5A,0x08,0xF0], function(err,results){
+        // console.log("results2: " + typeof results);
+      });
+    }
 
-    // sp.write("5A0B5A015A085A0C5A0D5A035A055A095A135A165A175A1A5A1C5A21F0", function(err,results){
-    //   console.log("results2: " + results);
-    // });
+  });
+  sp.write([0xFF, 0xFF, 0xEF], function(err, results) {
+    console.log("results: " + results);
   });
 });
 
