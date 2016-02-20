@@ -59,8 +59,11 @@ sp.on("open", function () {
         // console.log("results2: " + typeof results);
       });
     }
+    else{
+      console.log(data)
+      parseData(handleData(data, bytesRequested));
+    }
 
-    parseData(handleData(data, bytesRequested));
 
   });
   sp.write([0xFF, 0xFF, 0xEF], function(err, results) {
