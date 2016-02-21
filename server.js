@@ -16,71 +16,66 @@ var currentData= [];
 var frameStarted = false;
 var lengthByte;
 function handleData(data, bytesExpected){
+  // create an array of the size of requested data length and fill with requested data
   for(var i = 0; i < data.length; i++){
+    // read just 1 byte at a time of the stream
     var char = data.toString('hex',i,i+1);
     if(char === "ff"){
+      // Beginning of data array, the frame has started
       frameStarted = true;
+      // Get rid of last frame of data
       currentData = [];
+      // remove last lengthByte number so that we can check what this frame's byte should be
       lengthByte = undefined;
     }else if(frameStarted){
+      // frame has started
       if(!lengthByte){
+        // read lengthByte from the ECU
         lengthByte = parseInt(char, 16);
       }else{
+        // push byte of data onto our array
         currentData.push(parseInt(char, 16));
       }
     }
   }
   if(currentData.length === bytesExpected){
+    // End of data, return the array of data
     frameStarted = false;
-    // console.log(lengthByte === bytesExpected);
     return currentData.slice();
   }
+}
+
+function convertRPM(mostSignificantBit, leastSignificantBit){
+  // combine most significant bit and least significant bit and convert to RPM
+  return ((mostSignificantBit << 8) + leastSignificantBit) * 12.5
 }
 
 function parseData(data){
 
   if(data !== undefined){
-    var dataRPM = ((data[1] << 8) + data[2]) * 12.5
+    var dataRPM = convertRPM(data[1], data[2])
     rpm = dataRPM
-    // console.log(data);
   }
 
 }
 
-// LIST ALL SERIAL PORTS AND SOME DATA ABOUT THEM
-// serialport.list(function (err, ports) {
-//   ports.forEach(function(port) {
-//     console.log(port.comName);
-//     console.log(port.pnpId);
-//     console.log(port.manufacturer);
-//   });
-// });
 var isConnected = false;
 var command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0xF0];
 var bytesRequested = (command.length - 1) / 2;
 sp.on("open", function () {
-  console.log('open');
+  // Write initialization bytes to the ECU
+  sp.write([0xFF, 0xFF, 0xEF], function(err, results) {});
   sp.on('data', function(data) {
-    // console.log("data: " + JSON.stringify(data, null, 4));
-    // console.log("data: " + data.toString('hex'));
+    // Check to see if the ECU is connected and has sent the connection confirmation byte "10"
     if(!isConnected && data.toString('hex') === "10"){
       console.log("connected");
       isConnected = true;
-      // sp.write([0x5A,0x0B,0x5A,0x01,0x5A,0x08,0x5A,0x0C,0x5A,0x0D,0x5A,0x03,0x5A,0x05,0x5A,0x09,0x5A,0x13,0x5A,0x16,0x5A,0x17,0x5A,0x1A,0x5A,0x1C,0x5A,0x21,0xF0], function(err,results){
-      //   // console.log("results2: " + typeof results);
-      // });
-      sp.write(command, function(err,results){
-        // console.log("results2: " + typeof results);
-      });
+      // Tell the ECU what data we want it to give us
+      sp.write(command, function(err,results){});
     }else{
-      // console.log(data);
+      // Read the data from the stream and parse it
       parseData(handleData(data, bytesRequested));
-
     }
-
-  });
-  sp.write([0xFF, 0xFF, 0xEF], function(err, results) {
-    console.log("results: " + results);
   });
 });
 
