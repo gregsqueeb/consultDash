@@ -44,34 +44,34 @@ function handleData(data, bytesExpected){
 
 function convertRPM(mostSignificantBit, leastSignificantBit){
   // combine most significant bit and least significant bit and convert to RPM
-  return ((mostSignificantBit << 8) + leastSignificantBit) * 12.5
+  return ((mostSignificantBit << 8) + leastSignificantBit) * 12.5;
 }
 
 function convertCoolantTemp(data){
   // Subtract 50 for Celsius
-  var celciusCoolantTemp = data - 50
+  var celciusCoolantTemp = data - 50;
   // Convert celcius to fahrenheit
-  var fahrenheitCoolantTemp = celciusCoolantTemp * 1.8 + 32
+  var fahrenheitCoolantTemp = celciusCoolantTemp * 1.8 + 32;
 
-  return fahrenheitCoolantTemp
+  return fahrenheitCoolantTemp;
 }
 
 function convertKPH(data){
   // data * 2 gives KPH
-  return data * 2
+  return data * 2;
 }
 
 function convertMPH(data){
   // data * 2 gives KPH
-  return convertKPH(data) * 0.6213711922
+  return convertKPH(data) * 0.6213711922;
 }
 
 function parseData(data){
 
   if(data !== undefined){
-    rpm = convertRPM(data[1], data[2])
-    coolantTemp = convertCoolantTemp(data[0])
-    mph = convertMPH(data[3])
+    rpm = convertRPM(data[1], data[2]);
+    coolantTemp = convertCoolantTemp(data[0]);
+    mph = convertMPH(data[3]);
   }
 
 }
@@ -111,6 +111,6 @@ io.on('connection', function (socket) {
   console.log('New client connected!');
     //send data to client
     setInterval(function(){
-      socket.emit('ecuData', {'rpm':rpm,'mph':mph, 'coolantTemp':coolantTemp});
+      socket.emit('ecuData', {'rpm':rpm,'mph':mph,'coolantTemp':coolantTemp});
     }, 20);
 });
