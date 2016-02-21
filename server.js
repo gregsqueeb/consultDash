@@ -4,13 +4,10 @@ var fs = require('fs');
 var express = require('express');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
-// var SerialPort = require('virtual-serialport');
-// if (process.env.NODE_ENV == 'development') {
-//   console.log('Virtual Serial Port Activated');
-//   SerialPort = require('virtual-serialport');
-// }
 var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
-var rpm, mph = 0;
+
+// All the values we are getting from the ECU
+var rpm, mph, coolantTemp = 0;
 
 var currentData= [];
 var frameStarted = false;
@@ -50,17 +47,37 @@ function convertRPM(mostSignificantBit, leastSignificantBit){
   return ((mostSignificantBit << 8) + leastSignificantBit) * 12.5
 }
 
+function convertCoolantTemp(data){
+  // Subtract 50 for Celsius
+  var celciusCoolantTemp = data - 50
+  // Convert celcius to fahrenheit
+  var fahrenheitCoolantTemp = celciusCoolantTemp * 1.8 + 32
+
+  return fahrenheitCoolantTemp
+}
+
+function convertKPH(data){
+  // data * 2 gives KPH
+  return data * 2
+}
+
+function convertMPH(data){
+  // data * 2 gives KPH
+  return convertKPH(data) * 0.6213711922
+}
+
 function parseData(data){
 
   if(data !== undefined){
-    var dataRPM = convertRPM(data[1], data[2])
-    rpm = dataRPM
+    rpm = convertRPM(data[1], data[2])
+    coolantTemp = convertCoolantTemp(data[0])
+    mph = convertMPH(data[3])
   }
 
 }
 
 var isConnected = false;
-var command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0xF0];
+var command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0xF0];
 var bytesRequested = (command.length - 1) / 2;
 sp.on("open", function () {
   // Write initialization bytes to the ECU
@@ -94,11 +111,6 @@ io.on('connection', function (socket) {
   console.log('New client connected!');
     //send data to client
     setInterval(function(){
-      if(mph < 120){
-        mph += 1
-      } else{
-        mph = 0
-      }
-      socket.emit('ecuData', {'rpm':rpm,'mph':mph});
+      socket.emit('ecuData', {'rpm':rpm,'mph':mph, 'coolantTemp':coolantTemp});
     }, 20);
 });
