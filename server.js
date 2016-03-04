@@ -4,7 +4,7 @@ var fs = require('fs');
 var express = require('express');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
-var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
+// var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
 
 // All the values we are getting from the ECU
 var rpm, mph, coolantTemp = 0;
@@ -12,6 +12,7 @@ var rpm, mph, coolantTemp = 0;
 var currentData= [];
 var frameStarted = false;
 var lengthByte;
+
 function handleData(data, bytesExpected){
   // create an array of the size of requested data length and fill with requested data
   for(var i = 0; i < data.length; i++){
@@ -79,22 +80,22 @@ function parseData(data){
 var isConnected = false;
 var command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0xF0];
 var bytesRequested = (command.length - 1) / 2;
-sp.on("open", function () {
-  // Write initialization bytes to the ECU
-  sp.write([0xFF, 0xFF, 0xEF], function(err, results) {});
-  sp.on('data', function(data) {
-    // Check to see if the ECU is connected and has sent the connection confirmation byte "10"
-    if(!isConnected && data.toString('hex') === "10"){
-      console.log("connected");
-      isConnected = true;
-      // Tell the ECU what data we want it to give us
-      sp.write(command, function(err,results){});
-    }else{
-      // Read the data from the stream and parse it
-      parseData(handleData(data, bytesRequested));
-    }
-  });
-});
+// sp.on("open", function () {
+//   // Write initialization bytes to the ECU
+//   sp.write([0xFF, 0xFF, 0xEF], function(err, results) {});
+//   sp.on('data', function(data) {
+//     // Check to see if the ECU is connected and has sent the connection confirmation byte "10"
+//     if(!isConnected && data.toString('hex') === "10"){
+//       console.log("connected");
+//       isConnected = true;
+//       // Tell the ECU what data we want it to give us
+//       sp.write(command, function(err,results){});
+//     }else{
+//       // Read the data from the stream and parse it
+//       parseData(handleData(data, bytesRequested));
+//     }
+//   });
+// });
 
 // Server part
 var app = express();
@@ -109,8 +110,24 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
   console.log('New client connected!');
+
     //send data to client
     setInterval(function(){
+      if(rpm < 7200){
+        rpm += 10
+      } else{
+        rpm = 0
+      }
+      if(mph < 120){
+        mph += 1
+      } else{
+        mph = 0
+      }
+      if(coolantTemp < 210){
+        coolantTemp += 1
+      } else{
+        coolantTemp = 0
+      }
       socket.emit('ecuData', {'rpm':rpm,'mph':mph,'coolantTemp':coolantTemp});
     }, 20);
 });
