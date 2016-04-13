@@ -135,6 +135,10 @@
 .rpm__number--comma{
   padding-right: 5px;
 }
+.rpm__number--hidden-comma{
+  padding-right: 5px;
+  opacity: 0;
+}
 .comma-image{
   width: 9px;
   transform: translateY(10px);

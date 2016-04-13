@@ -58,12 +58,9 @@ var CommentBox = React.createClass({
 			tens += "--" + (mph + "")[1]
 			ones += "--" + (mph % 10)
 		} else if (mph > 9){
-			hundreds += "--0"
 			tens += "--" + (mph + "")[0]
 			ones += "--" + (mph % 10)
 		} else {
-			hundreds += "--0"
-			tens += "--0"
 			ones += "--" + (mph % 10)
 		}
 		return (
@@ -80,30 +77,31 @@ var CommentBox = React.createClass({
 		var hundreds = "rpm__number rpm__number";
 		var tens = "rpm__number rpm__number";
 		var ones = "rpm__number rpm__number";
+		var commaClass = rpm > 999 ? "rpm__number--comma" : "rpm__number--hidden-comma"
 		if (rpm > 1000){
 			thousands += "--" + (rpm + "")[0]
 			hundreds += "--" + (rpm + "")[1]
 			tens += "--" + (rpm + "")[2]
 			ones += "--" + (rpm + "")[3]
 		} else if (rpm > 100){
-			thousands += "--0"
+			thousands += "--default"
 			hundreds += "--" + (rpm + "")[0]
 			tens += "--" + (rpm + "")[1]
 			ones += "--" + (rpm % 10)
 		} else if (rpm > 9){
-			thousands += "--0"
-			hundreds += "--0"
+			thousands += "--default"
+			hundreds += "--default"
 			tens += "--" + (rpm + "")[0]
 			ones += "--" + (rpm % 10)
 		} else {
-			thousands += "--0"
-			hundreds += "--0"
-			tens += "--0"
+			thousands += "--default"
+			hundreds += "--default"
+			tens += "--default"
 			ones += "--" + (rpm % 10)
 		}
 		return (
 			<div className="rpm-num__container">
-				<div className="rpm"><span className={thousands}></span><span className='rpm__number--comma'><img className='comma-image' src='./comma.svg' /></span><span className={hundreds}></span><span className={tens}></span><span className={ones}></span></div>
+				<div className="rpm"><span className={thousands}></span><span className={commaClass}><img className='comma-image' src='./comma.svg' /></span><span className={hundreds}></span><span className={tens}></span><span className={ones}></span></div>
 				<div className="rpm--background"><span className='rpm__number--default'></span><span className='rpm__number--default'></span><span className='rpm__number--default'></span><span className='rpm__number--default'></span></div>
 			</div>
 		);
