@@ -99,6 +99,7 @@
 .small-num__container{
   display: inline-block;
   min-width: 175px;
+  margin-left: -40px;
 }
 .rpm__number, .rpm__number--default{
   color: #fff;
@@ -217,7 +218,7 @@ body {
 
 
 #content {
-	padding: 50px;
+	padding: 20px;
 	margin: auto;
 }
 
