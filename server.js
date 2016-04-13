@@ -114,7 +114,7 @@ io.on('connection', function (socket) {
     //send data to client
     setInterval(function(){
       if(rpm < 7200){
-        rpm += 10
+        rpm += 11
       } else{
         rpm = 0
       }

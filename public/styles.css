@@ -9,6 +9,19 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'small numbers';
+    src: url('../fonts/small-numbers.eot');
+    src: url('../fonts/small-numbers.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/small-numbers.woff') format('woff'),
+         url('../fonts/small-numbers.ttf') format('truetype'),
+         url('../fonts/small-numbers.svg#big-numbers') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.content-container{
+  display: flex;
+}
 [class*='big-']:after, .mph__number--default:before{
 	display: inline-block;
    font-family: 'big numbers';
@@ -82,6 +95,103 @@
   top: 0px;
   font-size: 145px;
 }
+
+.small-num__container{
+  display: inline-block;
+  min-width: 175px;
+}
+.rpm__number, .rpm__number--default{
+  color: #fff;
+  display: inline-block;
+  width: 29px;
+  height: 50px;
+  text-align: right;
+  padding-right: 10px;
+}
+.rpm__number--default{
+  color: #292630;
+}
+.rpm__number--default:first-child{
+  padding-right: 19px;
+}
+.rpm__number:last-child, .rpm__number--default:last-child{
+  padding-right: 0px;
+}
+.rpm{
+  position: absolute;
+}
+.rpm__label{
+  font-family: "Brandon Grotesque";
+  font-weight: bold;
+  color: #423E4A;
+  text-align: center;
+  margin-top: 3px;
+  font-size: 20px;
+}
+.rpm__number:first-child{
+  padding-right: 5px;
+}
+.rpm__number--comma{
+  padding-right: 5px;
+}
+.comma-image{
+  width: 9px;
+  transform: translateY(10px);
+}
+[class^="rpm__number"], [class*=" rpm__"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'small numbers' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 48px;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.rpm__number--0:before {
+    content: "\e900";
+}
+.rpm__number--1:before {
+    content: "\e901";
+}
+.rpm__number--2:before {
+    content: "\e902";
+}
+.rpm__number--3:before {
+    content: "\e903";
+}
+.rpm__number--4:before {
+    content: "\e904";
+}
+.rpm__number--5:before {
+    content: "\e905";
+}
+.rpm__number--6:before {
+    content: "\e906";
+}
+.rpm__number--7:before {
+    content: "\e907";
+}
+.rpm__number--8:before, .rpm__number--default:before {
+    content: "\e908";
+}
+.rpm__number--9:before {
+    content: "\e909";
+}
+.rpm-num__container{
+  background: #423E4A;
+  padding: 10px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+
 html{
   color: red;
 }

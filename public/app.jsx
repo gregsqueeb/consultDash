@@ -53,7 +53,6 @@ var CommentBox = React.createClass({
 		var hundreds = "mph__number mph__number";
 		var tens = "mph__number mph__number";
 		var ones = "mph__number mph__number";
-		console.log(tens);
 		if (mph > 100){
 			hundreds += "--" + (mph + "")[0]
 			tens += "--" + (mph + "")[1]
@@ -75,20 +74,56 @@ var CommentBox = React.createClass({
 			</div>
 		);
 	},
+	renderRPM: function () {
+		var rpm = this.state.rpm;
+		var thousands = "rpm__number rpm__number";
+		var hundreds = "rpm__number rpm__number";
+		var tens = "rpm__number rpm__number";
+		var ones = "rpm__number rpm__number";
+		if (rpm > 1000){
+			thousands += "--" + (rpm + "")[0]
+			hundreds += "--" + (rpm + "")[1]
+			tens += "--" + (rpm + "")[2]
+			ones += "--" + (rpm + "")[3]
+		} else if (rpm > 100){
+			thousands += "--0"
+			hundreds += "--" + (rpm + "")[0]
+			tens += "--" + (rpm + "")[1]
+			ones += "--" + (rpm % 10)
+		} else if (rpm > 9){
+			thousands += "--0"
+			hundreds += "--0"
+			tens += "--" + (rpm + "")[0]
+			ones += "--" + (rpm % 10)
+		} else {
+			thousands += "--0"
+			hundreds += "--0"
+			tens += "--0"
+			ones += "--" + (rpm % 10)
+		}
+		return (
+			<div className="rpm-num__container">
+				<div className="rpm"><span className={thousands}></span><span className='rpm__number--comma'><img className='comma-image' src='./comma.svg' /></span><span className={hundreds}></span><span className={tens}></span><span className={ones}></span></div>
+				<div className="rpm--background"><span className='rpm__number--default'></span><span className='rpm__number--default'></span><span className='rpm__number--default'></span><span className='rpm__number--default'></span></div>
+			</div>
+		);
+	},
 	render: function() {
 
 		return (
 			<div className="content-container">
-				<p>RPM: {this.state.rpm}</p>
-				<p>Coolant Temp (f): {this.state.coolantTemp}</p>
+
 				<div className="rpm__container">
 					{ this.backgroundMarkers() }
 					{ this.rpmMarkers() }
 					{ this.renderMPH() }
 				</div>
-
-				<img className='dial' src='./dial.png' />
-				<img style={this.needlePosition(this.state.rpm)} className='needle' src='./needle.png' />
+				<div className="small-num__container">
+						{ this.renderRPM() }
+						<p className="rpm__label">RPM</p>
+				</div>
+				<p>RPM: {this.state.rpm}</p>
+				<p>Coolant Temp (f): {this.state.coolantTemp}</p>
 			</div>
 		);
 	}
