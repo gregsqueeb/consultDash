@@ -255,7 +255,7 @@ body {
   height: 440px;
   position: absolute;
 }
-.rpm__marker::after, .rpm__marker--background::after{
+.rpm__marker::after, .rpm__marker--background::after, .temp__marker, .temp__marker--background{
   content: ' ';
   width: 6px;
   height: 40px;
@@ -265,9 +265,14 @@ body {
   transform: translateX(-50%);
   position: relative;
 }
-.rpm__marker::after{
+.rpm__marker::after, .temp__marker{
   background: #75F2E4;
   box-shadow: 0px 0px 6px 0px rgba(80,221,221,0.60);
+}
+.temp__marker, .temp__marker--background{
+  width: 40px;
+  height: 6px;
+  margin-bottom: 10px;
 }
 .rpm__marker:first-child::after{
   background: blue;
@@ -277,7 +282,7 @@ body {
   height: 440px;
   display: flex;
 }
-.rpm__marker--background::after{
+.rpm__marker--background::after, .temp__marker--background{
   background: #423E4A;
 }
 

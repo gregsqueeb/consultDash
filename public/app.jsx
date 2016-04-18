@@ -106,6 +106,41 @@ var CommentBox = React.createClass({
 			</div>
 		);
 	},
+	tempMarker: function (num, background) {
+		var divClass = !background ? "temp__marker" : "temp__marker--background"
+		var colors = ["#7BE7EC", "#89E8DC", "#96E9CE", "#A0EAC1", "#ABEBB4", "#BAEDA4", "#C5ED96", "#D1EE88", "#DDF07B", "#ECF16A", "#F0E966", "#F0DD68", "#F1D069", "#F2C36B", "#F3C36B", "#F4AA6E", "#F49D6F", "#F58F71", "#F58372", "#F77674"]
+		style = {}
+		if (!background){
+			style = {
+				backgroundColor : colors[num-1]
+			}
+		}
+		return (
+			<div style={style} className={divClass}></div>
+			);
+	},
+	tempMarkers: function (temp) {
+		tempPercent = temp / 210 * 20
+		var tempMarkers = []
+		background = true;
+
+		for (var i = 20; i > 0; i = i - 1) {
+			if (tempPercent > i){
+				background = false;
+			}
+			tempMarkers.push(this.tempMarker(i, background));
+		}
+		return tempMarkers;
+	},
+	backgroundTempMarkers: function () {
+		var tempMarkers = []
+		for (var i = 0; i < 20; i++) {
+			tempMarkers.push(this.tempMarker(i, true));
+		}
+		return tempMarkers;
+	},
+
+
 	render: function() {
 
 		return (
@@ -122,6 +157,9 @@ var CommentBox = React.createClass({
 				</div>
 				<p>RPM: {this.state.rpm}</p>
 				<p>Coolant Temp (f): {this.state.coolantTemp}</p>
+				<div className="temp__container">
+						{this.tempMarkers(this.state.coolantTemp)}
+				</div>
 			</div>
 		);
 	}
