@@ -1,4 +1,4 @@
-var CommentBox = React.createClass({
+var Dash = React.createClass({
 	getInitialState: function () {
 		return {
 			rpm: 0,
@@ -43,8 +43,12 @@ var CommentBox = React.createClass({
 	rpmMarkers: function () {
 		var percentRPM = this.state.rpm / 120;
 		var rpmMarkers = []
-		for (var i = 0; i < percentRPM; i++) {
-			rpmMarkers.push(this.rpmMarker(i, false));
+		var background = false
+		for (var i = 0; i < 75; i++) {
+			if (i > percentRPM ){
+				background = true
+			}
+			rpmMarkers.push(this.rpmMarker(i, background));
 		}
 		return rpmMarkers;
 	},
@@ -139,15 +143,10 @@ var CommentBox = React.createClass({
 		}
 		return tempMarkers;
 	},
-
-
-	render: function() {
-
+	dashV1: function () {
 		return (
-			<div className="content-container">
-
+			<span className='neon-dash-container'>
 				<div className="rpm__container">
-					{ this.backgroundMarkers() }
 					{ this.rpmMarkers() }
 					{ this.renderMPH() }
 				</div>
@@ -155,17 +154,25 @@ var CommentBox = React.createClass({
 						{ this.renderRPM() }
 						<p className="rpm__label">RPM</p>
 				</div>
-				<p>RPM: {this.state.rpm}</p>
-				<p>Coolant Temp (f): {this.state.coolantTemp}</p>
 				<div className="temp__container">
 						{this.tempMarkers(this.state.coolantTemp)}
 				</div>
+			</span>
+		);
+	},
+
+
+	render: function() {
+
+		return (
+			<div className="content-container">
+				{this.dashV1()}
 			</div>
 		);
 	}
 });
 
 React.render(
-	<CommentBox/>,
+	<Dash/>,
 	document.getElementById('content')
 );

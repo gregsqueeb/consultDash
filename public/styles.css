@@ -19,7 +19,7 @@
     font-weight: normal;
     font-style: normal;
 }
-.content-container{
+.neon-dash-container{
   display: flex;
 }
 [class*='big-']:after, .mph__number--default:before{
@@ -265,7 +265,7 @@ body {
   transform: translateX(-50%);
   position: relative;
 }
-.rpm__marker::after, .temp__marker{
+.rpm__marker::after{
   background: #75F2E4;
   box-shadow: 0px 0px 6px 0px rgba(80,221,221,0.60);
 }
@@ -273,9 +273,6 @@ body {
   width: 40px;
   height: 6px;
   margin-bottom: 10px;
-}
-.rpm__marker:first-child::after{
-  background: blue;
 }
 .rpm__container{
   width: 440px;
@@ -328,4 +325,10 @@ body {
 }
 .mph__number:nth-child(3n){
   left: 190px;
+}
+.temp__container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
 }
