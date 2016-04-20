@@ -3,7 +3,8 @@ var Dash = React.createClass({
 		return {
 			rpm: 0,
 			mph: 0,
-			coolantTemp: 0
+			coolantTemp: 0,
+			dash: "defaultDash",
 		};
 	},
 	componentDidMount: function () {
@@ -143,7 +144,7 @@ var Dash = React.createClass({
 		}
 		return tempMarkers;
 	},
-	dashV1: function () {
+	defaultDash: function () {
 		return (
 			<span className='neon-dash-container'>
 				<div className="rpm__container">
@@ -160,13 +161,40 @@ var Dash = React.createClass({
 			</span>
 		);
 	},
-
+	numbersDash: function () {
+		return (
+			<span className='neon-dash-container'>
+				TESTING
+			</span>
+		);
+	},
+	chooseDash: function (dashChoice) {
+		var dash = {}
+		this.state.dash = dashChoice;
+		switch (dashChoice) {
+		  case "defaultDash":
+		    dash = this.defaultDash();
+		    break;
+			case "numbersDash":
+				dash = this.numbersDash();
+				break;
+		  default:
+		    dash = this.defaultDash();
+		}
+		return (
+			dash
+		);
+	},
 
 	render: function() {
 
 		return (
 			<div className="content-container">
-				{this.dashV1()}
+				{/*<div className="dash-changer__container">
+					<a onClick={this.chooseDash.bind(this, 'numbersDash')}>Numbers Dash</a>
+					<a onClick={this.chooseDash.bind(this, 'defaultDash')}>Default Dash</a>
+				</div> */}
+				{this.chooseDash(this.state.dash)}
 			</div>
 		);
 	}
