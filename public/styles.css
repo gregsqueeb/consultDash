@@ -19,6 +19,9 @@
     font-weight: normal;
     font-style: normal;
 }
+::-webkit-scrollbar {
+    display: none;
+}
 .neon-dash-container{
   display: flex;
 }
@@ -222,7 +225,7 @@ body {
 
 
 #content {
-	padding: 20px;
+	padding: 20px 20px 0;
 	margin: auto;
 }
 
