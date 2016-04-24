@@ -4,7 +4,6 @@ var fs = require('fs');
 var express = require('express');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
-require('shelljs/global');
 // var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
 
 // All the values we are getting from the ECU
@@ -103,10 +102,7 @@ var app = express();
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-var server = app.listen(8090, function(){
-  // Start a browser in fullscreen mode on the correct page
-  exec('chromium-browser --kiosk http://localhost:8090')
-});
+var server = app.listen(8090);
 console.log('Server listening on port 8090');
 
 // Socket.IO part
