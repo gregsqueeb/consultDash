@@ -4,7 +4,7 @@ var fs = require('fs');
 var express = require('express');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
-// var sp = new SerialPort('/dev/tty.usbserial', { baudrate: 9600 });
+// var sp = new SerialPort('/dev/ttyUSB0', { baudrate: 9600 });
 
 // All the values we are getting from the ECU
 var rpm, mph, coolantTemp = 0;
