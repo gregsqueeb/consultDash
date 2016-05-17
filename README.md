@@ -1,6 +1,6 @@
 # Installing console dash on raspberry pi
 
-If RPI is a fresh install you might need to expand your file system
+##### If RPI is a fresh install you might need to expand your file system
 
 `sudo raspi-config`
 
@@ -9,7 +9,7 @@ If RPI is a fresh install you might need to expand your file system
 `reboot`
 
 
-Install node
+##### Install node
 
 `sudo apt-get update`
 
@@ -18,7 +18,7 @@ Install node
 `sudo apt-get install nodejs npm`
 
 
-Install Chromium
+##### Install Chromium
 
 `wget -qO - http://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -`
 
@@ -36,10 +36,9 @@ Install Chromium
 `npm install`
 
 
-Install script for mausberry circuit
+##### Install script for mausberry circuit
 
 `http://mausberrycircuits.com/pages/car-setup`
-
 
 Open Menu > Preferences > Default applications for LXSession
 
