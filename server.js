@@ -4,6 +4,8 @@ var fs = require('fs');
 var express = require('express');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
+
+// Don't set the serialport on development
 if (process.env.NODE_ENV != "development"){
   var sp = new SerialPort('/dev/ttyUSB0', { baudrate: 9600 });
 }
@@ -83,6 +85,7 @@ var isConnected = false;
 var command = [0x5A,0x08,0x5A,0x00,0x5A,0x01,0x5A,0x0b,0xF0];
 var bytesRequested = (command.length - 1) / 2;
 
+// Don't run this part for development.
 if (process.env.NODE_ENV != "development"){
 
   sp.on("open", function () {
@@ -119,6 +122,8 @@ io.on('connection', function (socket) {
 
     //send data to client
     setInterval(function(){
+
+      // Change values so you can see it go up when developing
       if (process.env.NODE_ENV === "development"){
         if(rpm < 7200){
           rpm += 11
@@ -136,6 +141,7 @@ io.on('connection', function (socket) {
           coolantTemp = 0
         }
       }
+
       socket.emit('ecuData', {'rpm':Math.floor(rpm),'mph':Math.floor(mph),'coolantTemp':Math.floor(coolantTemp)});
     }, 20);
 });

@@ -76,19 +76,19 @@ var Dash = React.createClass({
 			</div>
 		);
 	},
-	renderRPM: function () {
-		var rpm = this.state.rpm;
-		var thousands = "rpm__number rpm__number";
-		var hundreds = "rpm__number rpm__number";
-		var tens = "rpm__number rpm__number";
-		var ones = "rpm__number rpm__number";
-		var commaClass = rpm > 999 ? "rpm__number--comma" : "rpm__number--hidden-comma"
-		if (rpm > 1000){
+	renderSmallNumbers: function (number) {
+		var rpm = number;
+		var thousands = "small-number small-number";
+		var hundreds = "small-number small-number";
+		var tens = "small-number small-number";
+		var ones = "small-number small-number";
+		var commaClass = rpm > 999 ? "small-number--comma" : "small-number--hidden-comma"
+		if (rpm > 999){
 			thousands += "--" + (rpm + "")[0]
 			hundreds += "--" + (rpm + "")[1]
 			tens += "--" + (rpm + "")[2]
 			ones += "--" + (rpm + "")[3]
-		} else if (rpm > 100){
+		} else if (rpm > 99){
 			thousands += "--default"
 			hundreds += "--" + (rpm + "")[0]
 			tens += "--" + (rpm + "")[1]
@@ -107,7 +107,7 @@ var Dash = React.createClass({
 		return (
 			<div className="rpm-num__container">
 				<div className="rpm"><span className={thousands}></span><span className={commaClass}><img className='comma-image' src='./comma.svg' /></span><span className={hundreds}></span><span className={tens}></span><span className={ones}></span></div>
-				<div className="rpm--background"><span className='rpm__number--default'></span><span className='rpm__number--default'></span><span className='rpm__number--default'></span><span className='rpm__number--default'></span></div>
+				<div className="rpm--background"><span className='small-number--default'></span><span className='small-number--default'></span><span className='small-number--default'></span><span className='small-number--default'></span></div>
 			</div>
 		);
 	},
@@ -152,8 +152,8 @@ var Dash = React.createClass({
 					{ this.renderMPH() }
 				</div>
 				<div className="small-num__container">
-						{ this.renderRPM() }
-						<p className="rpm__label">RPM</p>
+						{ this.renderSmallNumbers(this.state.rpm) }
+						<p className="small-number__label">RPM</p>
 				</div>
 				<div className="temp__container">
 						{this.tempMarkers(this.state.coolantTemp)}
@@ -164,7 +164,19 @@ var Dash = React.createClass({
 	numbersDash: function () {
 		return (
 			<span className='neon-dash-container'>
-				TESTING
+				<ul>
+					<li>
+						{ this.renderSmallNumbers(this.state.rpm) }
+						<p className="small-number__label">RPM</p>
+					</li>
+					<li>
+						{ this.renderMPH() }
+					</li>
+					<li>
+						{ this.renderSmallNumbers(this.state.coolantTemp) }
+						<p className="small-number__label">Coolant Temp</p>
+					</li>
+				</ul>
 			</span>
 		);
 	},
@@ -190,11 +202,12 @@ var Dash = React.createClass({
 
 		return (
 			<div className="content-container">
+
+				{this.chooseDash(this.state.dash)}
 				{/*<div className="dash-changer__container">
 					<a onClick={this.chooseDash.bind(this, 'numbersDash')}>Numbers Dash</a>
 					<a onClick={this.chooseDash.bind(this, 'defaultDash')}>Default Dash</a>
-				</div> */}
-				{this.chooseDash(this.state.dash)}
+				</div>*/}
 			</div>
 		);
 	}
