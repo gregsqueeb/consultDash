@@ -165,14 +165,14 @@ var Dash = React.createClass({
 		return (
 			<span className='neon-dash-container'>
 				<ul>
-					<li>
+					<li className='rpm-column'>
 						{ this.renderSmallNumbers(this.state.rpm) }
 						<p className="small-number__label">RPM</p>
 					</li>
-					<li>
+					<li className='mph-column'>
 						{ this.renderMPH() }
 					</li>
-					<li>
+					<li className='temp-column'>
 						{ this.renderSmallNumbers(this.state.coolantTemp) }
 						<p className="small-number__label">Coolant Temp</p>
 					</li>
@@ -204,10 +204,10 @@ var Dash = React.createClass({
 			<div className="content-container">
 
 				{this.chooseDash(this.state.dash)}
-				{/*<div className="dash-changer__container">
-					<a onClick={this.chooseDash.bind(this, 'numbersDash')}>Numbers Dash</a>
-					<a onClick={this.chooseDash.bind(this, 'defaultDash')}>Default Dash</a>
-				</div>*/}
+				{<div className="dash-changer__container">
+					<a className="dash-button" onClick={this.chooseDash.bind(this, 'numbersDash')}>Numbers Dash</a>
+					<a className="dash-button" onClick={this.chooseDash.bind(this, 'defaultDash')}>Default Dash</a>
+				</div>}
 			</div>
 		);
 	}

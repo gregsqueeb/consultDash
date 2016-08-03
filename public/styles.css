@@ -342,3 +342,34 @@ body {
 .dash-changer__container {
   padding-top: 100px;
 }
+ul{
+  padding: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+li {
+  flex-direction: column;
+  list-style: none;
+}
+.mph-column .mph__container{
+  margin-top: 0px;
+  height: 225px;
+}
+.mph-column {
+  padding: 0px 20px;
+}
+
+.dash-button{
+  background: rgba(255,255,255,0.2);
+  padding: 15px 20px;
+  border-radius: 3px;
+  font-family: "Brandon Grotesque";
+  font-weight: bold;
+  color: #ffffff;
+  opacity: .3;
+}
+.dash-button:first-child {
+  margin-right: 20px;
+}
