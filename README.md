@@ -49,3 +49,10 @@ Add these two entries to Autostart
 `@chromium-browser —kiosk file:///home/pi/consultDash/re-direct-page.html`
 
 
+
+
+# How to run for development
+
+This will loop through MPH RPM and Temp so you can style things without being connected to a car :)
+
+`npm run dev`
