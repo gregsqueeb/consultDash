@@ -128,6 +128,6 @@ io.on('connection', function (socket) {
       } else{
         coolantTemp = 0
       }
-      socket.emit('ecuData', {'rpm':rpm,'mph':mph,'coolantTemp':coolantTemp});
+      socket.emit('ecuData', {'rpm':Math.floor(rpm),'mph':Math.floor(mph),'coolantTemp':Math.floor(coolantTemp)});
     }, 20);
 });
