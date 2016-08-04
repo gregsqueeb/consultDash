@@ -28,6 +28,7 @@
 
 `sudo apt-get install chromium-browser rpi-youtube -y`
 
+##### Install Dash
 
 `git clone https://github.com/gregsqueeb/consultDash.git`
 
