@@ -143,5 +143,5 @@ io.on('connection', function (socket) {
       }
 
       socket.emit('ecuData', {'rpm':Math.floor(rpm),'mph':Math.floor(mph),'coolantTemp':Math.floor(coolantTemp)});
-    }, 20);
+    }, 100);
 });
