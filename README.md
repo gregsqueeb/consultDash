@@ -46,7 +46,7 @@ Add these two entries to Autostart
 
 `@/home/pi/consultDash/startScript.sh`
 
-`@chromium-browser —kiosk file:///home/pi/consultDash/re-direct-page.html`
+`@chromium-browser —kiosk --ignore-certificate-errors --disable-restore-session-state file:///home/pi/consultDash/re-direct-page.html`
 
 
 
