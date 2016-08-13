@@ -5,6 +5,7 @@ var Dash = React.createClass({
 			mph: 0,
 			coolantTemp: 0,
 			dash: "defaultDash",
+			drawer: false
 		};
 	},
 	componentDidMount: function () {
@@ -145,9 +146,11 @@ var Dash = React.createClass({
 		return tempMarkers;
 	},
 	defaultDash: function () {
+		rpmClasses = 'rpm__container'
+		if (this.state.rpm > 6000) rpmClasses += ' rpm__container--redline';
 		return (
 			<span className='neon-dash-container'>
-				<div className="rpm__container">
+				<div className={rpmClasses}>
 					{ this.rpmMarkers() }
 					{ this.renderMPH() }
 				</div>
@@ -197,16 +200,27 @@ var Dash = React.createClass({
 			dash
 		);
 	},
+	chooseDashCloseDrawer: function (dashChoice) {
+		this.state.drawer = !this.state.drawer;
+		this.chooseDash(dashChoice);
+	},
+	toggleDrawer: function (dashChoice) {
+		this.state.drawer = !this.state.drawer;
+	},
 
 	render: function() {
+		drawerClass = 'dash-changer__container'
+		if ( this.state.drawer ) drawerClass += ' open'
 
 		return (
 			<div className="content-container">
 
 				{this.chooseDash(this.state.dash)}
-				{<div className="dash-changer__container">
-					<a className="dash-button" onClick={this.chooseDash.bind(this, 'numbersDash')}>Numbers Dash</a>
-					<a className="dash-button" onClick={this.chooseDash.bind(this, 'defaultDash')}>Default Dash</a>
+				{<div className={drawerClass}>
+					<a className="drawer-toggle drawer-toggle--open" onClick={this.toggleDrawer}><img className='dash-icon' src='./dashIcon.svg'/></a>
+					<a className="drawer-toggle drawer-toggle--close" onClick={this.toggleDrawer}><img className='close-icon' src='./close.svg'/></a>
+					<a className="dash-button" onClick={() => this.chooseDashCloseDrawer('defaultDash')}>Default Dash</a>
+					<a className="dash-button" onClick={() => this.chooseDashCloseDrawer('numbersDash')}>Numbers Dash</a>
 				</div>}
 			</div>
 		);
