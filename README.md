@@ -20,6 +20,8 @@ to help guide you through it.
 
 `sudo apt-get upgrade`
 
+NOTE: You must install node version v5.12 for the dash to work. Instructions on how to install a specific version of node incoming...
+
 `sudo apt-get install nodejs npm`
 
 
