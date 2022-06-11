@@ -67,7 +67,7 @@ Add these two entries to Autostart
 
 - [Raspberry Pi 3](https://www.adafruit.com/products/3055)
 - [Touch screen](https://www.adafruit.com/products/2718)
-- [Mausberry Circuit Power Supply](http://mausberry-circuits.myshopify.com/collections/car-power-supply-switches/products/3a-car-supply-switch)
+- [Mausberry Circuit Power Supply](https://www.mausberrycircuits.com/collections/frontpage/products/4amp-car-supply-switch)
 - [USB Consult cable](http://www.ebay.com/itm/14-Pin-Consult-II-OBD-DDL-USB-Interface-Diagnostic-Scanner-Tool-For-Nissan-Z32-/291644411718?hash=item43e75c8f46:g:bOkAAOSwQM9UZfVB&item=291644411718&vxp=mtr) (I am pretty sure this will work but I have not tested it yet. Let me know if you get it and it works)
 
 or
